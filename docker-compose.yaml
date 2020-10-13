@@ -1,0 +1,13 @@
+version: "3"
+services:
+  gogs:
+    build: .
+    image: tarfeef101/gogs_dark:0.12.3
+    container_name: gogs
+    ports:
+      - '3000:3000'
+      - '10022:22'
+    volumes:
+      - "gogs_test:/data"
+volumes:
+  gogs_test:

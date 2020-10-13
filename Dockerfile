@@ -36,6 +36,13 @@ COPY docker ./docker
 COPY --from=binarybuilder /gogs.io/gogs/gogs .
 
 RUN ./docker/finalize.sh
+RUN mkdir -p /data/gogs/templates/inject/ && \
+    mkdir -p /data/gogs/public/css/ && \
+    git clone https://github.com/Kos-M/GogsThemes.git /data/gogs/GogsThemes && \
+    echo '<link rel="stylesheet" href="/css/themes/dark_theme.css">' >> /data/gogs/templates/inject/head.tmpl && \
+    mv /data/gogs/GogsThemes/themes/ /data/gogs/public/css/ && \
+    cp -r /data/gogs/GogsThemes/img/ /data/gogs/public/ && \
+    rm -rf /data/gogs/GogsThemes
 
 # Configure Docker Container
 VOLUME ["/data", "/backup"]
